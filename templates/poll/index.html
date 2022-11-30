@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}<title>{{title}}</title>{% endblock title %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <h2>These are all {{title}}</h2>
+    </div>
+    {% if request.role == "HR" %}
+        <div class="col-md-6 text-right">
+            <a href="{% url 'add_poll' %}" class="btn btn-sm btn-primary">Add Polls</a>
+        </div>
+    {% endif %}
+</div>
+<div class="row">
+    <div class="col">
+        <table class="table table-bordered">
+            {% if questions %}
+            <thead class="bg-light">
+                <tr>
+                    <th>Poll</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in questions %}
+                <tr>
+                    <td>{{question.title}}</td>
+                    <td>
+                        <a href="{% url 'poll_details' question.id %}" class="btn btn-sm btn-primary">Details</a>
+                        <a href="{% url 'poll_edit' question.id %}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="/" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+
+                {% endfor %}
+                {% else %}
+                    <p>No questions available</p>
+                {% endif %}
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+{% endblock content %}
